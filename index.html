@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloudMatrix Usage Checker</title>
+</head>
+<body>
+    <h1>CloudMatrix</h1>
+    <button onclick="checkUsage()">Check Device Usage</button>
+    <p id="result"></p>
+
+    <script>
+        async function checkUsage() {
+            document.getElementById("result").innerHTML =
+                "CPU: " + Math.floor(Math.random()*100) + "%<br>" +
+                "RAM: " + Math.floor(Math.random()*100) + "%<br>" +
+                "Storage: " + Math.floor(Math.random()*100) + "%";
+        }
+    </script>
+</body>
+</html>
