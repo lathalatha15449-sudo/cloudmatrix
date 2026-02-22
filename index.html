@@ -13,18 +13,15 @@
         padding: 0;
         text-align: center;
     }
-
     h1 {
-        margin-top: 40px;
+        margin-top: 30px;
         font-size: 3em;
         letter-spacing: 2px;
     }
-
     .container {
-        margin: 40px auto;
+        margin: 30px auto;
         max-width: 400px;
     }
-
     .card {
         background: rgba(255, 255, 255, 0.1);
         padding: 20px;
@@ -33,12 +30,10 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         text-align: left;
     }
-
     .label {
         font-weight: bold;
         margin-bottom: 10px;
     }
-
     .bar {
         width: 100%;
         background: rgba(255,255,255,0.2);
@@ -46,7 +41,6 @@
         overflow: hidden;
         height: 20px;
     }
-
     .progress {
         height: 100%;
         background: #00ff99;
@@ -58,7 +52,6 @@
         transition: width 0.5s ease-in-out;
         color: #000;
     }
-
     button {
         margin-top: 20px;
         padding: 15px 30px;
@@ -70,11 +63,9 @@
         cursor: pointer;
         transition: background 0.3s;
     }
-
     button:hover {
         background: #ff1a1a;
     }
-
 </style>
 </head>
 <body>
@@ -97,31 +88,44 @@
         <div class="bar"><div class="progress" id="disk">0%</div></div>
     </div>
 
+    <div class="card">
+        <div class="label">Battery</div>
+        <div class="bar"><div class="progress" id="battery">0%</div></div>
+    </div>
+
     <button onclick="checkUsage()">Check Device Usage</button>
 </div>
 
 <script>
-function checkUsage() {
-    // Simulate random usage percentages
+// Function to simulate or get real usage if possible
+async function checkUsage() {
+    // Random simulation for CPU, RAM, Disk
     const cpu = Math.floor(Math.random() * 100);
     const ram = Math.floor(Math.random() * 100);
     const disk = Math.floor(Math.random() * 100);
 
-    // Update bars
-    const cpuBar = document.getElementById('cpu');
-    cpuBar.style.width = cpu + '%';
-    cpuBar.textContent = cpu + '%';
-    cpuBar.style.background = cpu > 80 ? '#ff4d4d' : (cpu > 50 ? '#ffcc00' : '#00ff99');
+    updateProgress('cpu', cpu);
+    updateProgress('ram', ram);
+    updateProgress('disk', disk);
 
-    const ramBar = document.getElementById('ram');
-    ramBar.style.width = ram + '%';
-    ramBar.textContent = ram + '%';
-    ramBar.style.background = ram > 80 ? '#ff4d4d' : (ram > 50 ? '#ffcc00' : '#00ff99');
+    // Battery info (real if supported)
+    if (navigator.getBattery) {
+        const batteryObj = await navigator.getBattery();
+        const batteryLevel = Math.floor(batteryObj.level * 100);
+        updateProgress('battery', batteryLevel);
+    } else {
+        // fallback simulated battery
+        const batteryLevel = Math.floor(Math.random() * 100);
+        updateProgress('battery', batteryLevel);
+    }
+}
 
-    const diskBar = document.getElementById('disk');
-    diskBar.style.width = disk + '%';
-    diskBar.textContent = disk + '%';
-    diskBar.style.background = disk > 80 ? '#ff4d4d' : (disk > 50 ? '#ffcc00' : '#00ff99');
+// Function to update progress bar dynamically
+function updateProgress(id, value) {
+    const bar = document.getElementById(id);
+    bar.style.width = value + '%';
+    bar.textContent = value + '%';
+    bar.style.background = value > 80 ? '#ff4d4d' : (value > 50 ? '#ffcc00' : '#00ff99');
 }
 </script>
 
